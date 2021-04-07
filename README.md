@@ -14,11 +14,11 @@ The `main.tf` file when applied will add the following configuration to your inf
 * 1 KMS Key for [Vault's Auto Unsealing](https://www.vaultproject.io/docs/concepts/seal#auto-unseal)
 * 7 SSM Parameters for Vault's Task Definition environment variables
 * 1 Security Group for the ECS Cluster's instance
-* 1 Target group to be [attached to a Load Balancer Listener's rule](https://docs.aws.amazon.com/elasticloadbalancing/latest/application/load-balancer-listeners.html) (manually)
 * 1 Task Definition for Vault container
 * 1 ECS Cluster
 * 1 Service for running the Task Definition on the Cluster
 * 1 Spot Fleet Request that will attach the instance to the ECS Cluster
+<!-- * 1 Target group to be [attached to a Load Balancer Listener's rule](https://docs.aws.amazon.com/elasticloadbalancing/latest/application/load-balancer-listeners.html) (manually) -->
 
 This is the resulting [graph](https://www.terraform.io/docs/internals/graph.html):
 
@@ -53,19 +53,19 @@ To use this template you will need
 
   ![Code to be removed](./images/code-to-remove.png)
 
-2. Go in the AWS console and [create and download a key pair](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-key-pairs.html#having-ec2-create-your-key-pair) **named `vault-key`** that will be used by to ssh into the instance
+4. Go in the AWS console and [create and download a key pair](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-key-pairs.html#having-ec2-create-your-key-pair) **named `vault-key`** that will be used by to ssh into the instance
 
-3. Run `terraform init` on the root of this repository
+5. Run `terraform init` on the root of this repository
 
-4. Run `terraform plan` to preview what will be built and run `terraform apply` to provision it
+6. Run `terraform plan` to preview what will be built and run `terraform apply` to provision it
 
-5. [Connect to the instance](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/AccessingInstancesLinux.html) through SSH
+7. [Connect to the instance](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/AccessingInstancesLinux.html) through SSH
 
-6. List the running containers with `docker ps`, the output will look something like this:
+8. List the running containers with `docker ps`, the output will look something like this:
 
     Take note of the first 3 digits of the Vault container's id
 
-7. Enter the container
+9. Enter the container
 
     ```sh
     docker exec -it 123 sh
@@ -73,7 +73,7 @@ To use this template you will need
 
     Where 123 is the id retrieved from `docker ps` command on the previous step
 
-8. Run the following command
+10. Run the following command
 
     ```sh
     vault operator init
@@ -85,6 +85,4 @@ To use this template you will need
 
     Write this information on a piece of paper and keep it with your life. You can now close your ssh connection with the instance
 
-9. [Attach](https://docs.aws.amazon.com/elasticloadbalancing/latest/application/load-balancer-listeners.html) the provisioned Target Group to a Load Balancer Listener Rule in order to access it
-
-10. Access the Vault UI and [start using it](https://learn.hashicorp.com/collections/vault/getting-started-ui)
+11. Access the Vault UI via the EC2 instance DNS and [start using it](https://learn.hashicorp.com/collections/vault/getting-started-ui)

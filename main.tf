@@ -306,11 +306,11 @@ resource "aws_security_group" "vault_instance" {
       ipv6_cidr_blocks = []
     },
     {
-      description      = "LB"
-      from_port        = 0
-      to_port          = 65535
+      description      = "Vault UI"
+      from_port        = 80
+      to_port          = 80
       protocol         = "tcp"
-      cidr_blocks      = []
+      cidr_blocks      = ["0.0.0.0/0"]
       self             = false
       security_groups  = []
       prefix_list_ids  = []
@@ -342,17 +342,17 @@ resource "aws_security_group" "vault_instance" {
 ### TARGET GROUP ###
 ####################
 
-resource "aws_lb_target_group" "vault" {
-  name     = "vault-tg-tf"
-  protocol = "HTTP"
-  port     = 80
-  vpc_id   = var.vpc_id
+# resource "aws_lb_target_group" "vault" {
+#   name     = "vault-tg-tf"
+#   protocol = "HTTP"
+#   port     = 80
+#   vpc_id   = var.vpc_id
 
-  health_check {
-    path    = "/v1/sys/health"
-    matcher = "200,429,473"
-  }
-}
+#   health_check {
+#     path    = "/v1/sys/health"
+#     matcher = "200,429,473"
+#   }
+# }
 
 #######################
 ### TASK DEFINITION ###
@@ -465,11 +465,11 @@ resource "aws_ecs_service" "vault" {
     field = "cpu"
   }
 
-  load_balancer {
-    target_group_arn = aws_lb_target_group.vault.arn
-    container_name   = "vault"
-    container_port   = 8200
-  }
+  # load_balancer {
+  #   target_group_arn = aws_lb_target_group.vault.arn
+  #   container_name   = "vault"
+  #   container_port   = 8200
+  # }
 
   # placement_constraints {
   #   type       = "memberOf"
@@ -533,7 +533,7 @@ resource "aws_launch_template" "vault" {
       Name        = "Vault"
       Description = "Vault spot fleet request's instance"
       Project     = "Vault"
-      terraform   = "true"
+      Terraform   = "true"
     }
   }
 
