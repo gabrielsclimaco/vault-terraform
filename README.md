@@ -41,6 +41,8 @@ To use this template you will need
 
     `bucker_name`: The name of the S3 Bucket that will serve as [storage for Vault](https://www.vaultproject.io/docs/configuration/storage/s3). Beware the S3 [naming rules](https://docs.aws.amazon.com/AmazonS3/latest/userguide/bucketnamingrules.html)
 
+    `vpc_id`: The default [VPC](https://docs.aws.amazon.com/vpc/latest/userguide/what-is-amazon-vpc.html) id in which Vault resources will be provided
+
 2. Remove the lock file
 
     ```sh

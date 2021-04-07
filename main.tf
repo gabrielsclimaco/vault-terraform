@@ -12,6 +12,11 @@ variable "bucket_name" {
   description = "The name of the bucket that will be used as backend for Vault"
 }
 
+variable "vpc_id" {
+  type        = string
+  description = "The VPC id in which Vault resources should be provided"
+}
+
 ##################
 ### PROVIDERS  ###
 ##################
@@ -62,10 +67,10 @@ resource "aws_iam_policy" "kms_management_access" {
   })
 
   tags = {
-    Name        = "KMS Management Access Policy"
+    Name = "KMS Management Access Policy"
     # Description = "Policy that allows KMS Keys encryption, decription and describing"
-    Project     = "Vault"
-    Terraform   = "true"
+    Project   = "Vault"
+    Terraform = "true"
   }
 }
 
@@ -330,6 +335,7 @@ resource "aws_lb_target_group" "vault" {
   name     = "vault-tg-tf"
   protocol = "HTTP"
   port     = 80
+  vpc_id   = var.vpc_id
 
   health_check {
     path    = "/v1/sys/health"
