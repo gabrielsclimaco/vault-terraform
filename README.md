@@ -39,9 +39,11 @@ To use this template you will need
 
     `profile`: The [named profile](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-profiles.html) configured in the AWS CLI. If no profile was set up just leave it as `default`
 
-    `bucker_name`: The name of the S3 Bucket that will serve as [storage for Vault](https://www.vaultproject.io/docs/configuration/storage/s3). Beware the S3 [naming rules](https://docs.aws.amazon.com/AmazonS3/latest/userguide/bucketnamingrules.html)
+    `account_id`: The [AWS ID account](https://docs.aws.amazon.com/IAM/latest/UserGuide/console_account-alias.html#FindingYourAWSId) in which Vault will be provided
 
     `vpc_id`: The default [VPC](https://docs.aws.amazon.com/vpc/latest/userguide/what-is-amazon-vpc.html) id in which Vault resources will be provided
+
+    `bucker_name`: The name of the S3 Bucket that will serve as [storage for Vault](https://www.vaultproject.io/docs/configuration/storage/s3). Beware the S3 [naming rules](https://docs.aws.amazon.com/AmazonS3/latest/userguide/bucketnamingrules.html)
 
 2. Remove the lock file
 

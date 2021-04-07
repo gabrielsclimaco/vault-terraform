@@ -7,14 +7,19 @@ variable "profile" {
   description = "The AWS profile configured on the CLI. If no profile was set up in the CLI leave it as default"
 }
 
-variable "bucket_name" {
+variable "account_id" {
   type        = string
-  description = "The name of the bucket that will be used as backend for Vault"
+  description = "The AWS ID account in which Vault will be provided"
 }
 
 variable "vpc_id" {
   type        = string
   description = "The VPC id in which Vault resources should be provided"
+}
+
+variable "bucket_name" {
+  type        = string
+  description = "The name of the bucket that will be used as backend for Vault"
 }
 
 ##################
@@ -552,7 +557,7 @@ resource "aws_spot_fleet_request" "vault" {
   allocation_strategy                 = "lowestPrice"
   excess_capacity_termination_policy  = "Default"
   valid_until                         = "2999-11-04T20:44:20Z"
-  iam_fleet_role                      = "arn:aws:iam::277048801940:role/aws-ec2-spot-fleet-tagging-role"
+  iam_fleet_role                      = "arn:aws:iam::${var.account_id}:role/aws-ec2-spot-fleet-tagging-role"
 
   tags = {
     "Name"        = "Vault"
