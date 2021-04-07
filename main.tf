@@ -22,7 +22,7 @@ terraform {
     organization = "coffee-personal-tf"
 
     workspaces {
-      name = "vault-terrfaorm"
+      name = "vault-terraform"
     }
   }
 
@@ -330,7 +330,7 @@ resource "aws_lb_target_group" "vault" {
   protocol = "HTTP"
 
   health_check {
-    path = "/v1/sys/health"
+    path    = "/v1/sys/health"
     matcher = "200,429,473"
   }
 }
