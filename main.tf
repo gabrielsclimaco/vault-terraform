@@ -495,88 +495,88 @@ data "template_file" "vault_instance_user_data" {
   EOF
 }
 
-# resource "aws_launch_template" "vault" {
-#   name          = "Vault"
-#   image_id      = "ami-005425225a11a4777"
-#   instance_type = "t3.micro"
-#   key_name      = "vault"
-#   user_data     = base64encode(data.template_file.vault_instance_user_data.rendered)
+resource "aws_launch_template" "vault" {
+  name          = "Vault"
+  image_id      = "ami-005425225a11a4777"
+  instance_type = "t3.micro"
+  key_name      = "vault"
+  user_data     = base64encode(data.template_file.vault_instance_user_data.rendered)
 
-#   placement {
-#     tenancy = "default"
-#   }
+  placement {
+    tenancy = "default"
+  }
 
-#   iam_instance_profile {
-#     arn = aws_iam_instance_profile.ecs_instance_profile.arn
-#   }
+  iam_instance_profile {
+    arn = aws_iam_instance_profile.ecs_instance_profile.arn
+  }
 
-#   block_device_mappings {
-#     device_name = "/dev/sda1"
-#     ebs {
-#       delete_on_termination = true
-#       volume_size           = 30
-#       volume_type           = "gp2"
-#     }
-#   }
+  block_device_mappings {
+    device_name = "/dev/sda1"
+    ebs {
+      delete_on_termination = true
+      volume_size           = 30
+      volume_type           = "gp2"
+    }
+  }
 
-#   network_interfaces {
-#     description                 = "Vault spot instance network interface"
-#     device_index                = 0
-#     delete_on_termination       = true
-#     associate_public_ip_address = true
-#     security_groups             = [aws_security_group.vault_instance.id]
-#   }
+  network_interfaces {
+    description                 = "Vault spot instance network interface"
+    device_index                = 0
+    delete_on_termination       = true
+    associate_public_ip_address = true
+    security_groups             = [aws_security_group.vault_instance.id]
+  }
 
-#   tag_specifications {
-#     resource_type = "instance"
-#     tags = {
-#       Name        = "Vault"
-#       Description = "Vault spot fleet request's instance"
-#       Project     = "Vault"
-#       Terraform   = "true"
-#     }
-#   }
+  tag_specifications {
+    resource_type = "instance"
+    tags = {
+      Name        = "Vault"
+      Description = "Vault spot fleet request's instance"
+      Project     = "Vault"
+      Terraform   = "true"
+    }
+  }
 
-#   tags = {
-#     Name        = "Vault"
-#     Description = "Vault instance launch template"
-#     Project     = "Vault"
-#     Terraform   = "true"
-#   }
-# }
+  tags = {
+    Name        = "Vault"
+    Description = "Vault instance launch template"
+    Project     = "Vault"
+    Terraform   = "true"
+  }
+}
 
-# resource "aws_spot_fleet_request" "vault" {
-#   instance_pools_to_use_count         = 1
-#   target_capacity                     = 1
-#   terminate_instances_with_expiration = false
-#   allocation_strategy                 = "lowestPrice"
-#   excess_capacity_termination_policy  = "Default"
-#   valid_until                         = "2999-11-04T20:44:20Z"
-#   iam_fleet_role                      = "arn:aws:iam::277048801940:role/aws-ec2-spot-fleet-tagging-role"
+resource "aws_spot_fleet_request" "vault" {
+  instance_pools_to_use_count         = 1
+  target_capacity                     = 1
+  terminate_instances_with_expiration = false
+  allocation_strategy                 = "lowestPrice"
+  excess_capacity_termination_policy  = "Default"
+  valid_until                         = "2999-11-04T20:44:20Z"
+  iam_fleet_role                      = "arn:aws:iam::277048801940:role/aws-ec2-spot-fleet-tagging-role"
 
-#   tags = {
-#     "Name"        = "Vault"
-#     "Description" = "Vault spot fleet request"
-#     "Project"     = "Vault"
-#     "Terraform"   = "true"
-#   }
+  tags = {
+    "Name"        = "Vault"
+    "Description" = "Vault spot fleet request"
+    "Project"     = "Vault"
+    "Terraform"   = "true"
+  }
 
-#   launch_template_config {
-#     launch_template_specification {
-#       id      = aws_launch_template.vault.id
-#       version = aws_launch_template.vault.latest_version
-#     }
+  launch_template_config {
+    launch_template_specification {
+      id      = aws_launch_template.vault.id
+      version = aws_launch_template.vault.latest_version
+    }
 
-#     overrides {
-#       instance_type = "t3.micro"
-#     }
+    overrides {
+      instance_type = "t3.micro"
+    }
 
-#     overrides {
-#       instance_type = "t3a.micro"
-#     }
+    overrides {
+      instance_type = "t3a.micro"
+    }
 
-#     overrides {
-#       instance_type = "t2.micro"
-#     }
-#   }
-# }
+    overrides {
+      instance_type = "t2.micro"
+    }
+  }
+}
