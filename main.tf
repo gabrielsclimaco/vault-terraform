@@ -546,10 +546,6 @@ resource "aws_launch_template" "vault" {
 }
 
 resource "aws_spot_fleet_request" "vault" {
-  lifecycle {
-    create_before_destroy = true
-  }
-
   instance_pools_to_use_count         = 1
   target_capacity                     = 1
   terminate_instances_with_expiration = false
