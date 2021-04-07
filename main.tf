@@ -35,6 +35,7 @@ terraform {
 }
 
 provider "aws" {
+  # profile = "personal"
   profile = var.profile
   region  = "us-east-1"
 }
@@ -62,7 +63,7 @@ resource "aws_iam_policy" "kms_management_access" {
 
   tags = {
     Name        = "KMS Management Access Policy"
-    Description = "Policy that allows KMS Keys encryption, decription and describing"
+    # Description = "Policy that allows KMS Keys encryption, decription and describing"
     Project     = "Vault"
     Terraform   = "true"
   }
@@ -139,7 +140,7 @@ resource "aws_s3_bucket" "vault_coffee" {
 
   tags = {
     Name        = "Vault Bucket"
-    Description = "Vault's backend S3 Bucket"
+    Description = "Vaults backend S3 Bucket"
     Project     = "Vault"
     Terraform   = "true"
   }
@@ -328,6 +329,7 @@ resource "aws_security_group" "vault_instance" {
 resource "aws_lb_target_group" "vault" {
   name     = "vault-tg-tf"
   protocol = "HTTP"
+  port     = 80
 
   health_check {
     path    = "/v1/sys/health"
@@ -378,7 +380,7 @@ resource "aws_ecs_task_definition" "vault" {
     volumesFrom = []
     portMappings = [
       {
-        hostPort      = 0
+        hostPort      = 80
         containerPort = 8200
         protocol      = "tcp"
       },
