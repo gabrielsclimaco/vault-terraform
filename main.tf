@@ -17,6 +17,15 @@ variable "bucket_name" {
 ##################
 
 terraform {
+  backend "remote" {
+    hostname     = "app.terraform.io"
+    organization = "coffee-personal-tf"
+
+    workspaces {
+      name = "vault-terrfaorm"
+    }
+  }
+
   required_providers {
     aws = {
       source  = "hashicorp/aws"

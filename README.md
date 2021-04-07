@@ -41,6 +41,16 @@ To use this template you will need
 
     `bucker_name`: The name of the S3 Bucket that will serve as [storage for Vault](https://www.vaultproject.io/docs/configuration/storage/s3). Beware the S3 [naming rules](https://docs.aws.amazon.com/AmazonS3/latest/userguide/bucketnamingrules.html)
 
+2. Remove the lock file
+
+    ```sh
+    rm .terraform.lock.hcl
+    ```
+
+3 Remove custom cloud config from `main.tf` at `line 20`
+
+  ![Code to be removed](./images/code-to-remove.png)
+
 2. Go in the AWS console and [create and download a key pair](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-key-pairs.html#having-ec2-create-your-key-pair) **named `vault-key`** that will be used by to ssh into the instance
 
 3. Run `terraform init` on the root of this repository
