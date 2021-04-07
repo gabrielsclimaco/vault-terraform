@@ -80,7 +80,7 @@ resource "aws_iam_role" "vault_task_role" {
   path        = "/"
 
   managed_policy_arns = [
-    "arn:aws:iam::355917249854:policy/KMSManagementAccess",
+    aws_iam_policy.kms_management_access.arn,
     "arn:aws:iam::aws:policy/AmazonS3FullAccess",
     "arn:aws:iam::aws:policy/AmazonSSMReadOnlyAccess",
     "arn:aws:iam::aws:policy/CloudWatchLogsFullAccess",
@@ -130,6 +130,17 @@ resource "aws_iam_role" "ecs_instance_role" {
 
   tags = {
     Name        = "ECS Instance Role"
+    Description = "Allows ECS instances to register to containers"
+    Terraform   = "true"
+  }
+}
+
+resource "aws_iam_instance_profile" "ecs_instance_profile" {
+  name = "ecsInstanceProfile"
+  role = aws_iam_role.ecs_instance_role.name
+
+  tags = {
+    Name        = "ECS Instance Profile"
     Description = "Allows ECS instances to register to containers"
     Terraform   = "true"
   }
@@ -496,7 +507,7 @@ resource "aws_launch_template" "vault" {
   }
 
   iam_instance_profile {
-    arn = aws_iam_role.ecs_instance_role.arn
+    arn = aws_iam_instance_profile.ecs_instance_profile.arn
   }
 
   block_device_mappings {
