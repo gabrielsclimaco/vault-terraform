@@ -35,7 +35,7 @@ To use this template you will need
 
 ## Instructions for use
 
-### **1.** Change the values of the variables in `terraform.tfvars` for values that suits your context
+1. Change the values of the variables in `terraform.tfvars` for values that suits your context
 
     `profile`: The [named profile](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-profiles.html) configured in the AWS CLI. If no profile was set up just leave it as `default`
 
@@ -45,31 +45,31 @@ To use this template you will need
 
     `bucker_name`: The name of the S3 Bucket that will serve as [storage for Vault](https://www.vaultproject.io/docs/configuration/storage/s3). Beware the S3 [naming rules](https://docs.aws.amazon.com/AmazonS3/latest/userguide/bucketnamingrules.html)
 
-### **2.** Remove the lock file
+2. Remove the lock file
 
     ```sh
     rm .terraform.lock.hcl
     ```
 
-### **3.** Remove custom cloud config from `main.tf` at `line 20`
+3. Remove custom cloud config from `main.tf` at `line 20`
 
   ![Code to be removed](./images/code-to-remove.png)
 
-### **4.** Go in the AWS console and [create and download a key pair](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-key-pairs.html#having-ec2-create-your-key-pair) **named `vault-key`** that will be used by to ssh into the instance
+4. Go in the AWS console and [create and download a key pair](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-key-pairs.html#having-ec2-create-your-key-pair) **named `vault-key`** that will be used by to ssh into the instance
 
-### **5.** Run `terraform init` on the root of this repository
+5. Run `terraform init` on the root of this repository
 
-### **6.** Run `terraform plan` to preview what will be built and run `terraform apply` to provision it
+6. Run `terraform plan` to preview what will be built and run `terraform apply` to provision it
 
-### **7.** [Connect to the instance](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/AccessingInstancesLinux.html) through SSH
+7. [Connect to the instance](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/AccessingInstancesLinux.html) through SSH
 
-### **8.** List the running containers with `docker ps`, the output will look something like this:
+8. List the running containers with `docker ps`, the output will look something like this:
 
     ![docker ps command example output](./images/docker-ps.png)
 
     Take note of the first 3 digits of the Vault container's id
 
-### **9.** Enter the container
+9. Enter the container
 
     ```sh
     docker exec -it 3db sh
@@ -77,7 +77,7 @@ To use this template you will need
 
     Where `3db` is the id retrieved from `docker ps` command on the previous step
 
-### **10.** Run the following command
+10. Run the following command
 
     ```sh
     vault operator init
@@ -89,4 +89,4 @@ To use this template you will need
 
     Write this information on a piece of paper and keep it with your life. You can now close your ssh connection with the instance
 
-### **11.** Access the Vault UI via the EC2 instance DNS and [start using it](https://learn.hashicorp.com/collections/vault/getting-started-ui)
+11. Access the Vault UI via the EC2 instance DNS and [start using it](https://learn.hashicorp.com/collections/vault/getting-started-ui)
