@@ -504,7 +504,7 @@ resource "aws_launch_template" "vault" {
   name          = "Vault"
   image_id      = "ami-005425225a11a4777"
   instance_type = "t3.micro"
-  key_name      = "vault"
+  key_name      = "vault-key"
   user_data     = base64encode(data.template_file.vault_instance_user_data.rendered)
 
   placement {
