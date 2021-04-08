@@ -65,15 +65,17 @@ To use this template you will need
 
 8. List the running containers with `docker ps`, the output will look something like this:
 
+    ![docker ps command example output](./images/docker-ps.png)
+
     Take note of the first 3 digits of the Vault container's id
 
 9. Enter the container
 
     ```sh
-    docker exec -it 123 sh
+    docker exec -it 3db sh
     ```
 
-    Where 123 is the id retrieved from `docker ps` command on the previous step
+    Where `3db` is the id retrieved from `docker ps` command on the previous step
 
 10. Run the following command
 
